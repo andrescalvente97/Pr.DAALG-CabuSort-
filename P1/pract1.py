@@ -107,20 +107,27 @@ def d_g_2_TGF(d_g, f_name):
         for nodoDst, pesoRec in DiccDestinos:       # el resto del fichero
             TGFFile.write(nodoOrg + ' ' + nodoDst + ' ' + pesoRec + '\n')   # Escribimos los diferentes datos
 
+    TGFFile.close()                             # Cerramos el fichero
+
 #   Función que devuelve un diccionario de listas de adyacencia a partir de un
-#   grafo ponderado TGF guardado en el archivo f_name
+#   grafo ponderado TGF guardado en el archivo f_name   ## TODO: Se guarda como str en el dicc
 def TGF_2_d_g(f_name):
 
     d_g = {}                                    # Inicializamos el diccionario de listas de adyacencia
 
     TGFFile = open(f_name, 'r')                 # Abrimos nuestro fichero donde tenemos el grafo en TGF
 
-    for indice in TGFFile.readline().split('\n')[0]:    # Leemos cada linea del fichero para obtener los indices de los diferentes nodos
-        if indice == '#':                                   # Cuando leemos el '#' salimos del bucle ya que hemos leido todos los indices
+    for linea in TGFFile:                       # Leemos cada linea del fichero para obtener los indices de los diferentes nodos
+        indice = linea.split('\n')[0]               # Dividimos la linea y cogemos el indice del nodo
+        if indice == '#':                           # Cuando leemos el '#' salimos del bucle ya que hemos leido todos los indices
             break
-        else:                                               # Si no leemos '#', guardamos el indice y creamos un diccionario para el mismo
+        else:                                       # Si no leemos '#', guardamos el indice y creamos un diccionario para el mismo
             d_g[indice] = {}
 
-    for recorrido in TGFFile.readline().split('\n')[0]: # Ahora guardamos en los distintos diccionarios los nodos destino y los costes hacia ellos
-        nodoOrg, nodoDst, pesoRec = recorrido.split(' ')    # Fragmentamos la linea leida en los diferentes datos
-        d_g[nodoOrg][nodoDst] = pesoRec                     # Creamos una clave y valor nuevos para el diccionario de nodoOrg
+    for linea in TGFFile:                       # Ahora guardamos en los distintos diccionarios los nodos destino y los costes hacia ellos
+        nodoOrg, nodoDst, pesoRec = linea.split('\n')[0].split(' ')    # Fragmentamos la linea leida en los diferentes datos
+        d_g[nodoOrg][nodoDst] = pesoRec                                # Creamos una clave y valor nuevos para el diccionario de nodoOrg
+
+    TGFFile.close()                             # Cerramos el fichero
+
+    return d_g
