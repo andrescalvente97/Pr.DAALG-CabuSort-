@@ -11,22 +11,32 @@ import grafos as gr
 
 #   Función que devuelve una matriz de adyacencia de un grafo ponderado (con pesos)
 #   con n_nodes, una proporción sparse_factor de ramas (?¿) y max_weight como peso máximo
-def rand_matr_pos_graph(n_nodes, sparse_factor, max_weight=50., decimals=0):
+def rand_matr_pos_graph(n_nodes, sparse_factor, max_weight=50., decimals=0):    ## TODO: Usar el decimals
 
-    m_g = np.empty((n_nodes, n_nodes))   # Creamos una matriz cuadrada de dimensiones n_nodes * n_nodes
-    m_g.fill(np.inf)                     # La inicializamos toda a np.inf
-    ## TODO:  Recorrer la matriz por filas cambiando una proporción de sparse_factor
+    matBinaria = np.random.binomial(1, sparse_factor, (n_nodes, n_nodes))           # Creamos la matriz que contiene las conexiones
+    matPesos = np.random.binomial(max_weight, sparse_factor, (n_nodes, n_nodes))    # Creamos la matriz que contiene los pesos
+    matAdyacencia = np.empty((n_nodes, n_nodes))                                    # Creamos la matriz de adyacencia
+    matAdyacencia.fill(np.inf)                                                      # La rellenamos de infinito
 
-    return m_g
+    matFinal = matBinaria * matPesos            # Multiplicamos la primera matriz por la segunda para tener los pesos SOLO en las conexiones generadas
+
+    for i in range(matAdyacencia.shape[0]):     # Recorremos la matriz de adyacencia
+        for j in range(matAdyacencia.shape[1]):
+            if i == j:                                  # Para poner a 0 la diagonal
+                matAdyacencia[i][j] = 0
+            elif matFinal[i][j] != 0:                   # Y para rellenar las conexiones
+                matAdyacencia[i][j] = matFinal[i][j]
+
+    return matAdyacencia
 
 #   Funcion que devuelve el numero de ramas en el grafo dada una matriz de adyacencia
 def cuenta_ramas(m_g):
 
     num_ramas = 0
 
-    for filas in m_g:
+    for filas in m_g:                           # Bucle que recorre la matriz de adyacencia
         for peso in filas:
-            if peso != 0 and peso != np.inf:
+            if peso != 0 and peso != np.inf:            # Sumando 1 cuando encuentra una conexión
                 num_ramas += 1
 
     return num_ramas
@@ -35,8 +45,16 @@ def cuenta_ramas(m_g):
 #   sparse_factor, devolviendo la media de sparse_factor reales de las matrices generadas
 def check_sparse_factor(n_grafos, n_nodes, sparse_factor):
 
+    sp_aux = 0          # Inicializamos a 0 esta variable auxiliar
 
-    return sparse_factor_medio
+    for i in range(n_grafos):       # Hacemos un bucle tantas veces como grafos tengamos que generar
+        mat = rand_matr_pos_graph(n_nodes, sparse_factor)   # Generamos la matriz de adyacencia
+        sp = cuenta_ramas(mat)                              # Contamos las ramas de la matriz generada
+        sp_aux += sp                                        # Sumamos las ramas al contador
+
+    avg_sparse_factor = sp_aux/n_grafos     # Por ultimo, calculamos el factor de dispersion medio
+
+    return avg_sparse_factor
 
 #   Función que devuelve el diccionario de listas de adyacencia
 #   del grafo decinido por la matriz de adyacencia m_g
