@@ -4,6 +4,7 @@ import time
 import matplotlib.pyplot as plt
 import random
 import pickle
+import queue
 import numpy as np
 from sklearn.linear_model import LinearRegression
 sys.path.append(r"D:\practicas_DAA_2017")
@@ -149,3 +150,45 @@ def TGF_2_d_g(f_name):
     TGFFile.close()                             # Cerramos el fichero
 
     return d_g
+
+def dijkstra_d(d_g, u):
+
+    lstOpenNodes = [] #s
+    d_prev = {} #p
+    d_dist = {} #d
+
+    for i in range(len(d_g)):
+        lstOpenNodes.append(False)
+
+    Q = queue.PriorityQueue()
+
+    d_dist[u] = 0 # K : nodoDst ; V : peso
+    Q.put((d_dist[u],u)) # [0]: Peso; [1]: NodoDst
+
+    # Mientras la cola de prioridad no este vacia
+    while not Q.empty():
+
+        dist_tuple = Q.get()
+        dist = dist_tuple[0]
+        nodoActual = dist_tuple[1]
+
+        if not lstOpenNodes[nodoActual]:
+
+            d_dist[nodoActual] = dist
+            lstOpenNodes[nodoActual] = True
+            # Sacamos las adyacencias del nodo a analizar:
+            diccionario_adyacencias = d_g[nodoActual]
+            # Sacamos las conexiones
+            for dicc_NodeDst, dicc_Dist in diccionario_adyacencias.items():
+
+                #   Si no existe, lo creamos
+                if not dicc_NodeDst in d_dist:
+                    d_dist[dicc_NodeDst] = dicc_Dist + dist
+                    d_prev[dicc_NodeDst] = nodoActual
+                    Q.put((d_dist[dicc_NodeDst],dicc_NodeDst))
+
+                #   Si existe, comprobamos si tiene menor peso que el anterior guardado
+                elif d_dist[dicc_NodeDst] > (d_dist[nodoActual] + d_g[nodoActual][dicc_NodeDst]):
+                    d_dist[dicc_NodeDst] = d_dist[nodoActual] + d_g[nodoActual][dicc_NodeDst]
+                    d_prev[dicc_NodeDst] = nodoActual
+                    Q.put((d_dist[dicc_NodeDst],dicc_NodeDst))
