@@ -1,3 +1,58 @@
+
+"""
+
+    Módulo que trabaja con las listas de adyacencia de adyacencia de los grafos para
+    resolver problemas propios de los grafos así como el algoritmo de Dijkstra y el
+    calculo de la complejidad de computación del mismo.
+
+    En este modulo se trabaja con 3 diferentes tipos de formas de expresar la matriz
+    de adyacencia de un grafo, siendo estos:
+
+        +   Matriz
+                Array bidimensional creado por la libreria de Python Numpy, las cuales
+                se expresan de la siguiente manera:
+
+                    [[ 0. inf inf inf inf]
+                     [inf  0. inf 15. inf]
+                     [inf inf  0. inf  7.]
+                     [10. inf 14.  0. 11.]
+                     [inf inf inf inf  0.]]
+
+                Donde "inf" son distancias infinitas y por tanto que NO hay conexión
+                entre esos dos nodos, y las demás distancias son los costes que están
+                expresadas en tipo float.
+
+        +   Diccionario
+                Diccionario de diccionario de diccionarios los cuales se expresan de
+                la siguiente manera:
+
+                {0: {}, 1: {3: 15.0}, 2: {4: 7.0}, 3: {0: 10.0, 2: 14.0, 4: 11.0}, 4: {}}
+
+                Donde la primera clave (K1) es el indice de un nodo y su valor es otro
+                diccionario, donde las claves de este son los nodos a los que está
+                conectado K1 y el valor es el peso de la rama entre ellos.
+        +   TGF
+                El formato TGF sirve para guardar un grafo junto a sus ramas en un fichero
+                para que se pueda guardar y serializar. Su formato es el siguiente:
+
+                0
+                1
+                2
+                3
+                4
+                #
+                1 3 15.
+                2 4 7.
+                3 0 10.
+                3 2 14.
+                3 4 11.
+
+                Donde la primera parte (la que va antes del #) nos muestra los diferentes
+                indices de un grafo, y la segunda parte, nos indica que nodo esta conectado
+                con quien y el peso de esa rama.
+
+    @author: Carlos Gonzalez García & Andrés Calvente Rodríguez
+"""
 # -*- coding: utf-8 -*-
 import sys
 import time
@@ -7,12 +62,22 @@ import pickle
 import queue
 import numpy as np
 from sklearn.linear_model import LinearRegression
-sys.path.append(r"D:\practicas_DAA_2017")
-import grafos as gr
+#sys.path.append(r"D:\practicas_DAA_2017")
+#import grafos as gr
 
-#   Función que devuelve una matriz de adyacencia de un grafo ponderado (con pesos)
-#   con n_nodes, una proporción sparse_factor de ramas (?¿) y max_weight como peso máximo
 def rand_matr_pos_graph(n_nodes, sparse_factor, max_weight=50., decimals=0):    ## TODO: Usar el decimals
+    """
+    Función que devuelve una matriz de adyacencia de un grafo ponderado (con pesos).
+
+    Parámetros:
+    n_nodes ----------> Número de nodos del grafo
+    sparse_factor ----> Factor de ramificación del grafo
+    max_weight -------> Peso maximo de una ramas
+    decimals ---------> Número de decimales de los pesos de las ramas
+
+    Retorno:
+    Matriz Numpy de adyacencia del grafo creado.
+    """
 
     matBinaria = np.random.binomial(1, sparse_factor, (n_nodes, n_nodes))           # Creamos la matriz que contiene las conexiones
     matPesos = np.random.binomial(max_weight, sparse_factor, (n_nodes, n_nodes))    # Creamos la matriz que contiene los pesos
@@ -30,8 +95,17 @@ def rand_matr_pos_graph(n_nodes, sparse_factor, max_weight=50., decimals=0):    
 
     return matAdyacencia
 
-#   Funcion que devuelve el numero de ramas en el grafo dada una matriz de adyacencia
+
 def cuenta_ramas(m_g):
+    """
+    Funcion que devuelve el numero de ramas en el grafo dada una matriz de adyacencia.
+
+    Parámetros:
+    m_g --> Grafo en formato Matriz Numpy
+
+    Retorno:
+    Número de ramas del grafo.
+    """
 
     num_ramas = 0
 
@@ -42,9 +116,20 @@ def cuenta_ramas(m_g):
 
     return num_ramas
 
-#   Función que genera las matrices de n_grafos aleatorios con n_nodes y un cierto
-#   sparse_factor, devolviendo la media de sparse_factor reales de las matrices generadas
+
 def check_sparse_factor(n_grafos, n_nodes, sparse_factor):
+    """
+    Función que genera un número de grafos aleatorios y calcula el factor d
+    ramificación medio sobre todos los grafos generados.
+
+    Parámetros:
+    n_grafos ---------> Número de grafos a generar
+    n_nodes ----------> Número de nodos por grafo
+    sparse_factor ----> Factor de ramificación de los grafos
+
+    Retorno:
+    Factor de ramificación medio.
+    """
 
     sp_aux = 0          # Inicializamos a 0 esta variable auxiliar
 
@@ -57,10 +142,17 @@ def check_sparse_factor(n_grafos, n_nodes, sparse_factor):
 
     return avg_sparse_factor
 
-#   Función que devuelve el diccionario de listas de adyacencia
-#   del grafo decinido por la matriz de adyacencia m_g
-#   SE SUPONE QUE TIENE QUE GENERAR UN DICCIONARIO DE UNA MATRIZ (?¿)
+
 def m_g_2_d_g(m_g):
+    """
+    Función que pasa una matriz de adyacencia en formato Matriz Numpy a formato Diccionario.
+
+    Parámetros:
+    m_g --> Matriz Numpy de adyacencia a transformar
+
+    Retorno:
+    El diccionario resultante a partir de la matriz.
+    """
 
     d_g = {}    # Diccionario a devolver
     index = 0   # Indice para el diccionario G (indice de nodo)
@@ -79,9 +171,17 @@ def m_g_2_d_g(m_g):
 
     return d_g
 
-#   Función que devuelve una matriz de adyacencia
-#   dado un diccionario de listas de adyacencia d_g
+
 def d_g_2_m_g(d_g):
+    """
+    Función que pasa una matriz adyacencia en formato Diccionario a formato Matriz Numpy.
+
+    Parámetros:
+    d_g --> Diccionario de una matriz de adyacencia a transformar
+
+    Retorno:
+    La Matriz Numpy resultante a partir del Diccionario.
+    """
 
     m_g = np.empty((len(d_g), len(d_g)))    # Como son matrices cuadradas, la longitud del diccionario nos da la cantidad de nodos
     m_g.fill(np.inf)                        # La rellenamos de np.inf
@@ -95,15 +195,33 @@ def d_g_2_m_g(d_g):
 
     return m_g
 
-#   Función que guarda un objeto Python obj de manera comprimida en un fichero de nombre f_name
+
 def save_object(obj, f_name='obj.pklz', save_path='.'):
+    """
+    Función que guarda un objeto Python de manera comprimida en un fichero.
+
+    Parámetros:
+    obj ----------> Objeto Python a comprimir
+    f_name -------> Nombre del fichero donde queremos guardar el objeto
+    save_path ----> Ruta donde queremos guardar el fichero
+    """
 
     objFile = open(save_path + f_name, 'wb')    # Abrimos el fichero en modo de escritura binaria para que funcione pickle
     pickle.dump(obj, objFile)                   # Guardamos el objeto ¿ya serializado? en el fichero
     objFile.close()                             # Cerramos el fichero
 
-#   Función que devuelve un objeto Python guardado en un fichero de nombre f_name
+
 def read_object(f_name, save_path='.'):
+    """
+    Función que carga un objeto Python de un fichero.
+
+    Parámetros:
+    f_name -------> Nombre del fichero donde tenemos el objeto
+    save_path ----> Ruta donde tenemos el fichero
+
+    Retorno:
+    El objeto Python de dentro del fichero
+    """
 
     objFile = open(save_path + f_name, 'rb')    # Abrimos el fichero en modo de lectura binaria para que funcione pickle
     object = pickle.load(fp)                    # Cargamos el objeto ¿serializado? guardado en el fichero
@@ -111,9 +229,16 @@ def read_object(f_name, save_path='.'):
 
     return object
 
-#   Función que escribe en un fichero de nombre f_name un grafo ponderado en formato
-#   TGF a partir de un diccionario de listas de adyacencia
+
 def d_g_2_TGF(d_g, f_name):
+    """
+    Función que escribe en un fichero un grafo ponderado en formato
+    TGF a partir de un diccionario de listas de adyacencia.
+
+    Parámetros:
+    d_g ------> Diccionario de listas de adyacencia a transformar
+    f_name ---> Nombre del fichero queremos guardar el grafo en formato TGF
+    """
 
     TGFFile = open(f_name, 'w')                 # Abrimos el fichero en modo escritura
 
@@ -128,9 +253,18 @@ def d_g_2_TGF(d_g, f_name):
 
     TGFFile.close()                             # Cerramos el fichero
 
-#   Función que devuelve un diccionario de listas de adyacencia a partir de un
-#   grafo ponderado TGF guardado en el archivo f_name   ## TODO: Se guarda como str en el dicc
+## TODO: Se guarda como str en el dicc
 def TGF_2_d_g(f_name):
+    """
+    Función que lee de un fichero un grafo en formato TGF y crea un diccionario
+    de listas de adyacencia a partir del TGF.
+
+    Parámetros:
+    f_name --> Nombre del fichero donde tenemos el grafo en TGF
+
+    Retorno:
+    Diccionario de listas de adyacencia generado.
+    """
 
     d_g = {}                                    # Inicializamos el diccionario de listas de adyacencia
 
@@ -151,44 +285,169 @@ def TGF_2_d_g(f_name):
 
     return d_g
 
+
 def dijkstra_d(d_g, u):
+    """
+    Funcion que resuelve el algoritmo de Dijkstra para un nodo de un grafo almacenado
+    en un diccionario de listas de adyacencia.
 
-    lstOpenNodes = [] #s
-    d_prev = {} #p
-    d_dist = {} #d
+    Parámetros:
+    d_g --> Diccionario de listas de adyacencia de un grafo a aplicar Dijkstra sobre uno de sus nodos
+    u ----> Nodo del grafo a aplicar Dijkstra
 
-    for i in range(len(d_g)):
-        lstOpenNodes.append(False)
+    Retorno:
+    +   Diccionario de distancia de u a K con peso V.
+    +   Diccionario de previos donde V es el nodo previo a K.
+    """
 
-    Q = queue.PriorityQueue()
+    lstOpenNodes = [] #s    # Lista de nodos abiertos
+    d_dist = {} #d          # Diccionario de costes minimos
+    d_prev = {} #p          # Diccionario de nodos previos
 
-    d_dist[u] = 0 # K : nodoDst ; V : peso
-    Q.put((d_dist[u],u)) # [0]: Peso; [1]: NodoDst
+    for i in range(len(d_g)):       # Inicializamos la lista entera a False
+        lstOpenNodes.append(False)  ## TODO: ¿Se puede hacer mejor?
+
+    Q = queue.PriorityQueue()       # Inicializamos la cola de prioridad
+
+    d_dist[u] = 0           # K : nodoDst ; V : peso
+    Q.put((d_dist[u],u))    # [0]: Peso; [1]: NodoDst   # Debe ser asi para que funcione la prioridad
 
     # Mientras la cola de prioridad no este vacia
     while not Q.empty():
 
-        dist_tuple = Q.get()
+        dist_tuple = Q.get()        # Cogemos la tupla (peso, distancia)
         dist = dist_tuple[0]
         nodoActual = dist_tuple[1]
 
+        #   Si el nodo no esta cerrado
         if not lstOpenNodes[nodoActual]:
 
-            d_dist[nodoActual] = dist
-            lstOpenNodes[nodoActual] = True
-            # Sacamos las adyacencias del nodo a analizar:
-            diccionario_adyacencias = d_g[nodoActual]
+            lstOpenNodes[nodoActual] = True             # Cerramos el nodo
+            diccionario_adyacencias = d_g[nodoActual]   # Sacamos las adyacencias del nodo a analizar
+
             # Sacamos las conexiones
             for dicc_NodeDst, dicc_Dist in diccionario_adyacencias.items():
 
                 #   Si no existe, lo creamos
                 if not dicc_NodeDst in d_dist:
-                    d_dist[dicc_NodeDst] = dicc_Dist + dist
-                    d_prev[dicc_NodeDst] = nodoActual
-                    Q.put((d_dist[dicc_NodeDst],dicc_NodeDst))
+                    d_dist[dicc_NodeDst] = dicc_Dist + dist     # Nueva Entrada. {v : (dist(prev(v),v) + Dst_Acumulada)}
+                    d_prev[dicc_NodeDst] = nodoActual           # Nueva Entrada. {v : prev(v)}
+                    Q.put((d_dist[dicc_NodeDst],dicc_NodeDst))  # Metemos elemento en Q. (dist(u,v), v)
 
                 #   Si existe, comprobamos si tiene menor peso que el anterior guardado
                 elif d_dist[dicc_NodeDst] > (d_dist[nodoActual] + d_g[nodoActual][dicc_NodeDst]):
-                    d_dist[dicc_NodeDst] = d_dist[nodoActual] + d_g[nodoActual][dicc_NodeDst]
-                    d_prev[dicc_NodeDst] = nodoActual
-                    Q.put((d_dist[dicc_NodeDst],dicc_NodeDst))
+                    d_dist[dicc_NodeDst] = d_dist[nodoActual] + d_g[nodoActual][dicc_NodeDst]   # Nueva Entrada. {v : (dist(prev(v),v) + Dst_Acumulada)}
+                    d_prev[dicc_NodeDst] = nodoActual           # Nueva Entrada. {v : prev(v)}
+                    Q.put((d_dist[dicc_NodeDst],dicc_NodeDst))  # Metemos elemento en Q. (dist(u,v), v)
+
+    return d_dist, d_prev
+
+def dijkstra_m(m_g, u):
+    """
+    Funcion que resuelve el algoritmo de Dijkstra para un nodo de un grafo almacenado
+    en un Matriz Numpy de adyacencia.
+
+    Parámetros:
+    m_g --> Matriz Numpy de adyacencia de un grafo a aplicar Dijkstra sobre uno de sus nodos
+    u ----> Nodo del grafo a aplicar Dijkstra
+
+    Retorno:
+    +   Diccionario de distancia de u a K con peso V.
+    +   Diccionario de previos donde V es el nodo previo a K.
+    """
+    pass
+
+def min_paths(d_prev):
+    pass
+
+
+def time_dijkstra_m(n_graphs, n_nodes_ini, n_nodes_fin, step, sparse_factor=.25):
+    """
+    Función que genera un número de grafos con un numero de nodos entre un minimo
+    y un máximo conocidos con incrementos de nodos entre ese rango . Despues, para
+    cada grafo generado, aplicamos el algoritmo de Dijkstra para cada nodo de cada
+    grafo, midiendo el tiempo en el se resuelve el mismo.
+    Los grafos están en modo Matriz Numpy.
+
+    Parámetros:
+    n_graphs --> Número de grados por paso
+    n_nodes_ini ----> Número de nodos del paso inicial
+    n_nodes_fin ----> Número de nodos del paso final
+    step ----> Incremento de nodos entre los diferentes pasos
+    sparse_factor ----> Factor de ramificación de los grafos a generar
+
+    Retorno:
+    Lista con los tiempos medios de resolución de Dijkstra para todos los nodos de todos
+    los grafos de cada paso.
+    """
+
+    pass
+
+
+def time_dijkstra_d(n_graphs, n_nodes_ini, n_nodes_fin, step, sparse_factor=.25):
+    """
+    Función que genera un número de grafos con un numero de nodos entre un minimo
+    y un máximo conocidos con incrementos de nodos entre ese rango . Despues, para
+    cada grafo generado, aplicamos el algoritmo de Dijkstra para cada nodo de cada
+    grafo, midiendo el tiempo en el se resuelve el mismo.
+    Los grafos están en modo Diccionario.
+
+    Parámetros:
+    n_graphs -----------> Número de grados por paso
+    n_nodes_ini --------> Número de nodos del paso inicial
+    n_nodes_fin --------> Número de nodos del paso final
+    step ---------------> Incremento de nodos entre los diferentes pasos
+    sparse_factor ------> Factor de ramificación de los grafos a generar
+
+    Retorno:
+    Lista con los tiempos medios de resolución de Dijkstra para todos los nodos de todos
+    los grafos de cada paso.
+    """
+
+    lista_diccGrafos = []   # Creamos una lista vacia para los grafos en formato diccionario
+
+    # Creamos n_graphs grafos con los distintos valores entre n_nodes_ini y n_nodes_fin
+    # menores estrictamente que n_nodes_fin debido a como funciona range()
+    for n_nodes in range(n_nodes_ini, n_nodes_fin, step):
+        for j in range(n_graphs):
+            newMatrixGraph = rand_matr_pos_graph(n_nodes, sparse_factor)
+            newDiccGraph = m_g_2_d_g(newMatrixGraph)
+            lista_diccGrafos.append(newDiccGraph)
+    # Creamos los grafos con n_nodes_fin numero de nodos que falta
+    for j in range(n_graphs):
+        newMatrixGraph = rand_matr_pos_graph(n_nodes_fin, sparse_factor)
+        newDiccGraph = m_g_2_d_g(newMatrixGraph)
+        lista_diccGrafos.append(newDiccGraph)
+
+    listaStep_diccTiempos = []      # Creamos una lista auxiliar vacia para los tiempos de resolución de cada matriz
+    lista_diccAvgTiempos = []       # Creamos una lista vacia para los tiempos de resolución de cada matriz
+    actualNodes_step = n_nodes_ini  # Inicializamos el step actual al minimo de nodos
+
+    for grafoDicc in lista_diccGrafos:
+
+        time_start = time.time()            # Tiempo en segundos al empezar a resolver un grafo
+        for nodo_ini in grafoDicc:          # Resolvemos el grafo para TODOS los nodos
+            dijkstra_d(grafoDicc, nodo_ini)
+        time_end = time.time()              # Tiempo en segundos al finalizar de resolver un grafo
+
+        # Calculamos el tiempo medio de resolucion del algoritmo para todos los grafos de un step
+        # Por tanto, solo entremos sí el grafo actual es de distinto tamaño al step actual o si
+        # estamos en el ultimo grafo, en ese caso calculariamos el tiempo medio de resolución para
+        # el ultimo step
+        if (len(grafoDicc) != actualNodes_step) or (grafoDicc == lista_diccGrafos[-1]):
+
+            if grafoDicc == lista_diccGrafos[-1]:   # Añadimos el ultimo nodo
+                listaStep_diccTiempos.append(time_end - time_start)
+
+            avg_tiempo = 0  # Inicializamos el tiempo medio
+            for tiempo in listaStep_diccTiempos:    # Hacemos el sumatorio de todos los tiempos de un step
+                avg_tiempo += tiempo
+            avg_tiempo /= n_graphs                  # Calculamos la media
+
+            lista_diccAvgTiempos.append(avg_tiempo)     # Añadimos a la lista el nuevo tiempo medio
+            actualNodes_step += step                    # Aumentamos el step
+            listaStep_diccTiempos = []                  # Limpiamos la lista de tiempos del step
+
+        listaStep_diccTiempos.append(time_end - time_start) # Añadimos el nuevo tiempo a la lista de un step
+
+    return lista_diccAvgTiempos
