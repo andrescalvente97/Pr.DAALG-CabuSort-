@@ -1,0 +1,46 @@
+import queue
+
+d_g={0: {1: 10, 2:1}, 1: {2: 1},2: {3: 1}, 3: {1: 1}}
+
+u=0
+
+lstOpenNodes = [] #s
+d_prev = {} #p
+d_dist = {} #d
+
+for i in range(len(d_g)):
+    lstOpenNodes.append(False)
+
+Q = queue.PriorityQueue()
+
+d_dist[u] = 0 # K : nodoDst ; V : peso
+Q.put((d_dist[u],u)) # [0]: Peso; [1]: NodoDst
+
+# Mientras la cola de prioridad no este vacia
+while not Q.empty():
+
+    dist_tuple = Q.get()
+    dist = dist_tuple[0]
+    nodoActual = dist_tuple[1]
+
+    if not lstOpenNodes[nodoActual]:
+
+        d_dist[nodoActual] = dist
+        lstOpenNodes[nodoActual] = True
+        # Sacamos las adyacencias del nodo a analizar:
+        diccionario_adyacencias = d_g[nodoActual]
+        for dicc_NodeDst, dicc_Dist in diccionario_adyacencias.items():
+            # Sacamos las conexiones
+            if not dicc_NodeDst in d_dist:
+                d_dist[dicc_NodeDst] = dicc_Dist + dist
+                d_prev[dicc_NodeDst] = nodoActual
+                Q.put((d_dist[dicc_NodeDst],dicc_NodeDst))
+
+            elif d_dist[dicc_NodeDst] > (d_dist[nodoActual] + d_g[nodoActual][dicc_NodeDst]):
+                d_dist[dicc_NodeDst] = d_dist[nodoActual] + d_g[nodoActual][dicc_NodeDst]
+                d_prev[dicc_NodeDst] = nodoActual
+                Q.put((d_dist[dicc_NodeDst],dicc_NodeDst))
+
+print(lstOpenNodes)
+print(d_dist)
+print(d_prev)

@@ -1,14 +1,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<html><head><title>Python: module pract1</title>
+<html><head><title>Python: module grafos03</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head><body bgcolor="#f0f0f8">
 
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
 <tr bgcolor="#7799ee">
 <td valign=bottom>&nbsp;<br>
-<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>pract1</strong></big></big></font></td
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>grafos03</strong></big></big></font></td
 ><td align=right valign=bottom
-><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/andresiniesta97/Escritorio/Pr.DAALG-CabuSort-/P1/pract1.py">/home/andresiniesta97/Escritorio/Pr.DAALG-CabuSort-/P1/pract1.py</a></font></td></tr></table>
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/andresiniesta97/Escritorio/ENTREGA%20DAALG/grafos03.py">/home/andresiniesta97/Escritorio/ENTREGA DAALG/grafos03.py</a></font></td></tr></table>
     <p><tt>Módulo&nbsp;que&nbsp;trabaja&nbsp;con&nbsp;las&nbsp;listas&nbsp;de&nbsp;adyacencia&nbsp;de&nbsp;adyacencia&nbsp;de&nbsp;los&nbsp;grafos&nbsp;para<br>
 resolver&nbsp;problemas&nbsp;propios&nbsp;de&nbsp;los&nbsp;grafos&nbsp;así&nbsp;como&nbsp;el&nbsp;algoritmo&nbsp;de&nbsp;Dijkstra&nbsp;y&nbsp;el<br>
 calculo&nbsp;de&nbsp;la&nbsp;complejidad&nbsp;de&nbsp;computación&nbsp;del&nbsp;mismo.<br>
@@ -39,6 +39,7 @@ de&nbsp;adyacencia&nbsp;de&nbsp;un&nbsp;grafo,&nbsp;siendo&nbsp;estos:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Donde&nbsp;la&nbsp;primera&nbsp;clave&nbsp;(K1)&nbsp;es&nbsp;el&nbsp;indice&nbsp;de&nbsp;un&nbsp;nodo&nbsp;y&nbsp;su&nbsp;valor&nbsp;es&nbsp;otro<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;diccionario,&nbsp;donde&nbsp;las&nbsp;claves&nbsp;de&nbsp;este&nbsp;son&nbsp;los&nbsp;nodos&nbsp;a&nbsp;los&nbsp;que&nbsp;está<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conectado&nbsp;K1&nbsp;y&nbsp;el&nbsp;valor&nbsp;es&nbsp;el&nbsp;peso&nbsp;de&nbsp;la&nbsp;rama&nbsp;entre&nbsp;ellos.<br>
+&nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;&nbsp;&nbsp;TGF<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;El&nbsp;formato&nbsp;TGF&nbsp;sirve&nbsp;para&nbsp;guardar&nbsp;un&nbsp;grafo&nbsp;junto&nbsp;a&nbsp;sus&nbsp;ramas&nbsp;en&nbsp;un&nbsp;fichero<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;para&nbsp;que&nbsp;se&nbsp;pueda&nbsp;guardar&nbsp;y&nbsp;serializar.&nbsp;Su&nbsp;formato&nbsp;es&nbsp;el&nbsp;siguiente:<br>
@@ -58,7 +59,31 @@ de&nbsp;adyacencia&nbsp;de&nbsp;un&nbsp;grafo,&nbsp;siendo&nbsp;estos:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Donde&nbsp;la&nbsp;primera&nbsp;parte&nbsp;(la&nbsp;que&nbsp;va&nbsp;antes&nbsp;del&nbsp;#)&nbsp;nos&nbsp;muestra&nbsp;los&nbsp;diferentes<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;indices&nbsp;de&nbsp;un&nbsp;grafo,&nbsp;y&nbsp;la&nbsp;segunda&nbsp;parte,&nbsp;nos&nbsp;indica&nbsp;que&nbsp;nodo&nbsp;esta&nbsp;conectado<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;con&nbsp;quien&nbsp;y&nbsp;el&nbsp;peso&nbsp;de&nbsp;esa&nbsp;rama.<br>
-&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;&nbsp;&nbsp;Grafo&nbsp;dirigido&nbsp;NetworkX<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;La&nbsp;estructura&nbsp;usa&nbsp;un&nbsp;diccionario&nbsp;de&nbsp;diccionarios&nbsp;de&nbsp;diccionarios&nbsp;para&nbsp;guardar&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;un&nbsp;grafo.&nbsp;El&nbsp;primer&nbsp;diccionario&nbsp;d&nbsp;tiene&nbsp;como&nbsp;claves&nbsp;[u]&nbsp;los&nbsp;indices&nbsp;de&nbsp;los&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;diferentes&nbsp;nodos&nbsp;del&nbsp;grafo.&nbsp;Los&nbsp;valores&nbsp;contenidos&nbsp;en&nbsp;estos,&nbsp;d[u],&nbsp;son&nbsp;diccionarios<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;donde&nbsp;las&nbsp;claves&nbsp;son&nbsp;todos&nbsp;los&nbsp;diferentes&nbsp;nodos&nbsp;v&nbsp;a&nbsp;los&nbsp;que&nbsp;el&nbsp;nodo&nbsp;u&nbsp;esta&nbsp;conectado.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Finalmente,&nbsp;cada&nbsp;nodo&nbsp;destino&nbsp;v,&nbsp;tiene&nbsp;como&nbsp;valor&nbsp;un&nbsp;diccionario,&nbsp;los&nbsp;cuales&nbsp;contienen<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;como&nbsp;clave&nbsp;un&nbsp;atributo&nbsp;del&nbsp;nodo,&nbsp;sea&nbsp;este&nbsp;el&nbsp;peso,&nbsp;color,&nbsp;edad...&nbsp;y&nbsp;valor&nbsp;el&nbsp;mismo&nbsp;valor<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;del&nbsp;atributo.&nbsp;La&nbsp;estructura&nbsp;de&nbsp;un&nbsp;grafo&nbsp;dirigido&nbsp;NetworkX&nbsp;es&nbsp;el&nbsp;siguiente:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{0:&nbsp;{2:&nbsp;{'weight':&nbsp;27.0},&nbsp;3:&nbsp;{'weight':&nbsp;25.0}},&nbsp;2:&nbsp;{0:&nbsp;{'weight':&nbsp;24.0}},&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3:&nbsp;{0:&nbsp;{'weight':&nbsp;24.0},&nbsp;2:&nbsp;{'weight':&nbsp;15.0}},&nbsp;1:&nbsp;{4:&nbsp;{'weight':&nbsp;22.0}},&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4:&nbsp;{2:&nbsp;{'weight':&nbsp;29.0},&nbsp;3:&nbsp;{'weight':&nbsp;29.0}}}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Por&nbsp;tanto:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{u:&nbsp;{v:&nbsp;{'weight':&nbsp;p},&nbsp;(...)}.&nbsp;(...)}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;u&nbsp;--------------------&gt;&nbsp;Nodo&nbsp;Origen<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v&nbsp;--------------------&gt;&nbsp;Nodo&nbsp;Destino<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d[u]&nbsp;-----------------&gt;&nbsp;v<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d[u][v]&nbsp;--------------&gt;&nbsp;Atributos&nbsp;de&nbsp;v<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d[u][v]['weight']&nbsp;----&gt;&nbsp;Peso&nbsp;de&nbsp;la&nbsp;rama&nbsp;(u&nbsp;v)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
 @author:&nbsp;Carlos&nbsp;Gonzalez&nbsp;García&nbsp;&amp;&nbsp;Andrés&nbsp;Calvente&nbsp;Rodríguez</tt></p>
 <p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
@@ -68,13 +93,15 @@ de&nbsp;adyacencia&nbsp;de&nbsp;un&nbsp;grafo,&nbsp;siendo&nbsp;estos:<br>
     
 <tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
 <td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="numpy.html">numpy</a><br>
-<a href="pickle.html">pickle</a><br>
-</td><td width="25%" valign=top><a href="matplotlib.pyplot.html">matplotlib.pyplot</a><br>
+<a href="networkx.html">networkx</a><br>
+<a href="pandas.html">pandas</a><br>
+</td><td width="25%" valign=top><a href="pickle.html">pickle</a><br>
+<a href="matplotlib.pyplot.html">matplotlib.pyplot</a><br>
 <a href="queue.html">queue</a><br>
 </td><td width="25%" valign=top><a href="random.html">random</a><br>
 <a href="sys.html">sys</a><br>
-</td><td width="25%" valign=top><a href="time.html">time</a><br>
-</td></tr></table></td></tr></table><p>
+<a href="time.html">time</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#eeaa77">
 <td colspan=3 valign=bottom>&nbsp;<br>
@@ -119,6 +146,14 @@ d_g&nbsp;--&gt;&nbsp;Diccionario&nbsp;de&nbsp;una&nbsp;matriz&nbsp;de&nbsp;adyac
 &nbsp;<br>
 Retorno:<br>
 La&nbsp;Matriz&nbsp;Numpy&nbsp;resultante&nbsp;a&nbsp;partir&nbsp;del&nbsp;Diccionario.</tt></dd></dl>
+ <dl><dt><a name="-d_g_2_nx_g"><strong>d_g_2_nx_g</strong></a>(d_g)</dt><dd><tt>Función&nbsp;que&nbsp;pasa&nbsp;una&nbsp;matriz&nbsp;de&nbsp;adyacencia&nbsp;en&nbsp;formato&nbsp;diccionario&nbsp;de&nbsp;listas&nbsp;de&nbsp;adyacencia&nbsp;a&nbsp;formato&nbsp;de&nbsp;grafo&nbsp;dirigido<br>
+NetworkX.<br>
+&nbsp;<br>
+Parámetros:<br>
+d_g&nbsp;--&gt;&nbsp;Diccionario&nbsp;de&nbsp;listas&nbsp;de&nbsp;adyacencia&nbsp;a&nbsp;transformar<br>
+&nbsp;<br>
+Retorno:<br>
+El&nbsp;grafo&nbsp;dirigido&nbsp;NetworkX&nbsp;resultante&nbsp;a&nbsp;partir&nbsp;del&nbsp;dicionario.</tt></dd></dl>
  <dl><dt><a name="-dijkstra_d"><strong>dijkstra_d</strong></a>(d_g, u)</dt><dd><tt>Funcion&nbsp;que&nbsp;resuelve&nbsp;el&nbsp;algoritmo&nbsp;de&nbsp;Dijkstra&nbsp;para&nbsp;un&nbsp;nodo&nbsp;de&nbsp;un&nbsp;grafo&nbsp;almacenado<br>
 en&nbsp;un&nbsp;diccionario&nbsp;de&nbsp;listas&nbsp;de&nbsp;adyacencia.<br>
 &nbsp;<br>
@@ -139,6 +174,15 @@ u&nbsp;----&gt;&nbsp;Nodo&nbsp;del&nbsp;grafo&nbsp;a&nbsp;aplicar&nbsp;Dijkstra<
 Retorno:<br>
 +&nbsp;&nbsp;&nbsp;Diccionario&nbsp;de&nbsp;distancia&nbsp;de&nbsp;u&nbsp;a&nbsp;K&nbsp;con&nbsp;peso&nbsp;V.<br>
 +&nbsp;&nbsp;&nbsp;Diccionario&nbsp;de&nbsp;previos&nbsp;donde&nbsp;V&nbsp;es&nbsp;el&nbsp;nodo&nbsp;previo&nbsp;a&nbsp;K.</tt></dd></dl>
+ <dl><dt><a name="-fit_plot"><strong>fit_plot</strong></a>(l, func_2_fit, size_ini, size_fin, step)</dt><dd><tt>Función&nbsp;de&nbsp;ajuste.&nbsp;Para&nbsp;una&nbsp;lista&nbsp;de&nbsp;valores&nbsp;dada,&nbsp;ajustamos&nbsp;los&nbsp;valores&nbsp;para&nbsp;que&nbsp;se<br>
+asemejen&nbsp;a&nbsp;la&nbsp;curva&nbsp;de&nbsp;una&nbsp;función&nbsp;dada.<br>
+&nbsp;<br>
+Parámetros:<br>
+l&nbsp;--------------&gt;&nbsp;Lista&nbsp;de&nbsp;valores&nbsp;a&nbsp;ajustar<br>
+func_2_fit&nbsp;-----&gt;&nbsp;Función&nbsp;a&nbsp;la&nbsp;que&nbsp;ajustaremos&nbsp;los&nbsp;datos<br>
+size_ini&nbsp;-------&gt;&nbsp;Tamaño&nbsp;minimo&nbsp;de&nbsp;nodos<br>
+size_fin&nbsp;-------&gt;&nbsp;Tamaño&nbsp;máximo&nbsp;de&nbsp;nodos<br>
+step&nbsp;-----------&gt;&nbsp;Incremento&nbsp;de&nbsp;nodos&nbsp;por&nbsp;cada&nbsp;ciclo</tt></dd></dl>
  <dl><dt><a name="-m_g_2_d_g"><strong>m_g_2_d_g</strong></a>(m_g)</dt><dd><tt>Función&nbsp;que&nbsp;pasa&nbsp;una&nbsp;matriz&nbsp;de&nbsp;adyacencia&nbsp;en&nbsp;formato&nbsp;Matriz&nbsp;Numpy&nbsp;a&nbsp;formato&nbsp;Diccionario.<br>
 &nbsp;<br>
 Parámetros:<br>
@@ -146,7 +190,35 @@ m_g&nbsp;--&gt;&nbsp;Matriz&nbsp;Numpy&nbsp;de&nbsp;adyacencia&nbsp;a&nbsp;trans
 &nbsp;<br>
 Retorno:<br>
 El&nbsp;diccionario&nbsp;resultante&nbsp;a&nbsp;partir&nbsp;de&nbsp;la&nbsp;matriz.</tt></dd></dl>
- <dl><dt><a name="-min_paths"><strong>min_paths</strong></a>(d_prev)</dt></dl>
+ <dl><dt><a name="-min_paths"><strong>min_paths</strong></a>(d_prev)</dt><dd><tt>Función&nbsp;que&nbsp;genera&nbsp;un&nbsp;diccionario&nbsp;con&nbsp;los&nbsp;caminos&nbsp;mínimos&nbsp;de&nbsp;cada&nbsp;uno&nbsp;de&nbsp;los&nbsp;nodos&nbsp;de&nbsp;un&nbsp;determinado&nbsp;grafo.<br>
+Para&nbsp;ello&nbsp;utiliza&nbsp;el&nbsp;diccionario&nbsp;de&nbsp;nodos&nbsp;previos&nbsp;que&nbsp;genera&nbsp;el&nbsp;algoritmo&nbsp;de&nbsp;Dijkstra&nbsp;que&nbsp;hemos&nbsp;desarrollado<br>
+en&nbsp;esta&nbsp;práctica.<br>
+&nbsp;<br>
+Parámetros:<br>
+d_prev&nbsp;---------&gt;&nbsp;Diccionario&nbsp;de&nbsp;nodos&nbsp;previos<br>
+&nbsp;<br>
+Retorno:<br>
+Diccionario&nbsp;con&nbsp;los&nbsp;caminos&nbsp;mínimos&nbsp;de&nbsp;cada&nbsp;uno&nbsp;de&nbsp;los&nbsp;nodos&nbsp;del&nbsp;grafo.</tt></dd></dl>
+ <dl><dt><a name="-n2_log_n"><strong>n2_log_n</strong></a>(n)</dt><dd><tt>Función&nbsp;que&nbsp;devuelve&nbsp;el&nbsp;resultado&nbsp;de&nbsp;n²&nbsp;*&nbsp;log(n).<br>
+&nbsp;<br>
+Parámetros:<br>
+n&nbsp;--------------&gt;&nbsp;Valor&nbsp;a&nbsp;despejar&nbsp;en&nbsp;la&nbsp;fórmula</tt></dd></dl>
+ <dl><dt><a name="-nx_g_2_d_g"><strong>nx_g_2_d_g</strong></a>(nx_g)</dt><dd><tt>Función&nbsp;que&nbsp;pasa&nbsp;una&nbsp;matriz&nbsp;de&nbsp;adyacencia&nbsp;en&nbsp;formato&nbsp;grafo&nbsp;dirigido&nbsp;NetworkX&nbsp;a&nbsp;formato&nbsp;de&nbsp;dicionario&nbsp;de&nbsp;listas&nbsp;de&nbsp;<br>
+adyacencia.<br>
+&nbsp;<br>
+Parámetros:<br>
+nx_g&nbsp;--&gt;&nbsp;Diccionario&nbsp;de&nbsp;listas&nbsp;de&nbsp;adyacencia&nbsp;a&nbsp;transformar<br>
+&nbsp;<br>
+Retorno:<br>
+El&nbsp;diccionario&nbsp;de&nbsp;listas&nbsp;de&nbsp;adyacencia&nbsp;resultante&nbsp;a&nbsp;partir&nbsp;del&nbsp;grafo&nbsp;dirigido&nbsp;NetworkX.</tt></dd></dl>
+ <dl><dt><a name="-print_d_g"><strong>print_d_g</strong></a>(d_g)</dt><dd><tt>Función&nbsp;de&nbsp;impresión&nbsp;de&nbsp;un&nbsp;grafo&nbsp;en&nbsp;formato&nbsp;diccionario&nbsp;de&nbsp;listas&nbsp;de&nbsp;adyacencia<br>
+&nbsp;<br>
+Parámetros:<br>
+d_g&nbsp;--------------&gt;&nbsp;Diccionario&nbsp;de&nbsp;listas&nbsp;de&nbsp;adyacencia&nbsp;numpy&nbsp;a&nbsp;imprimir</tt></dd></dl>
+ <dl><dt><a name="-print_m_g"><strong>print_m_g</strong></a>(m_g)</dt><dd><tt>Función&nbsp;de&nbsp;impresión&nbsp;de&nbsp;un&nbsp;grafo&nbsp;en&nbsp;formato&nbsp;matriz&nbsp;numpy<br>
+&nbsp;<br>
+Parámetros:<br>
+m_g&nbsp;--------------&gt;&nbsp;Matriz&nbsp;numpy&nbsp;a&nbsp;imprimir</tt></dd></dl>
  <dl><dt><a name="-rand_matr_pos_graph"><strong>rand_matr_pos_graph</strong></a>(n_nodes, sparse_factor, max_weight=50.0, decimals=0)</dt><dd><tt>Función&nbsp;que&nbsp;devuelve&nbsp;una&nbsp;matriz&nbsp;de&nbsp;adyacencia&nbsp;de&nbsp;un&nbsp;grafo&nbsp;ponderado&nbsp;(con&nbsp;pesos).<br>
 &nbsp;<br>
 Parámetros:<br>
@@ -172,7 +244,7 @@ obj&nbsp;----------&gt;&nbsp;Objeto&nbsp;Python&nbsp;a&nbsp;comprimir<br>
 f_name&nbsp;-------&gt;&nbsp;Nombre&nbsp;del&nbsp;fichero&nbsp;donde&nbsp;queremos&nbsp;guardar&nbsp;el&nbsp;objeto<br>
 save_path&nbsp;----&gt;&nbsp;Ruta&nbsp;donde&nbsp;queremos&nbsp;guardar&nbsp;el&nbsp;fichero</tt></dd></dl>
  <dl><dt><a name="-time_dijkstra_d"><strong>time_dijkstra_d</strong></a>(n_graphs, n_nodes_ini, n_nodes_fin, step, sparse_factor=0.25)</dt><dd><tt>Función&nbsp;que&nbsp;genera&nbsp;un&nbsp;número&nbsp;de&nbsp;grafos&nbsp;con&nbsp;un&nbsp;numero&nbsp;de&nbsp;nodos&nbsp;entre&nbsp;un&nbsp;minimo<br>
-y&nbsp;un&nbsp;máximo&nbsp;conocidos&nbsp;con&nbsp;incrementos&nbsp;de&nbsp;nodos&nbsp;entre&nbsp;ese&nbsp;rango&nbsp;.&nbsp;Despues,&nbsp;para<br>
+y&nbsp;un&nbsp;máximo&nbsp;conocidos&nbsp;con&nbsp;incrementos&nbsp;de&nbsp;nodos&nbsp;entre&nbsp;ese&nbsp;rango.&nbsp;Despues,&nbsp;para<br>
 cada&nbsp;grafo&nbsp;generado,&nbsp;aplicamos&nbsp;el&nbsp;algoritmo&nbsp;de&nbsp;Dijkstra&nbsp;para&nbsp;cada&nbsp;nodo&nbsp;de&nbsp;cada<br>
 grafo,&nbsp;midiendo&nbsp;el&nbsp;tiempo&nbsp;en&nbsp;el&nbsp;se&nbsp;resuelve&nbsp;el&nbsp;mismo.<br>
 Los&nbsp;grafos&nbsp;están&nbsp;en&nbsp;modo&nbsp;Diccionario.<br>
@@ -194,11 +266,27 @@ grafo,&nbsp;midiendo&nbsp;el&nbsp;tiempo&nbsp;en&nbsp;el&nbsp;se&nbsp;resuelve&n
 Los&nbsp;grafos&nbsp;están&nbsp;en&nbsp;modo&nbsp;Matriz&nbsp;Numpy.<br>
 &nbsp;<br>
 Parámetros:<br>
-n_graphs&nbsp;--&gt;&nbsp;Número&nbsp;de&nbsp;grados&nbsp;por&nbsp;paso<br>
-n_nodes_ini&nbsp;----&gt;&nbsp;Número&nbsp;de&nbsp;nodos&nbsp;del&nbsp;paso&nbsp;inicial<br>
-n_nodes_fin&nbsp;----&gt;&nbsp;Número&nbsp;de&nbsp;nodos&nbsp;del&nbsp;paso&nbsp;final<br>
-step&nbsp;----&gt;&nbsp;Incremento&nbsp;de&nbsp;nodos&nbsp;entre&nbsp;los&nbsp;diferentes&nbsp;pasos<br>
+n_graphs&nbsp;---------&gt;&nbsp;Número&nbsp;de&nbsp;grados&nbsp;por&nbsp;paso<br>
+n_nodes_ini&nbsp;------&gt;&nbsp;Número&nbsp;de&nbsp;nodos&nbsp;del&nbsp;paso&nbsp;inicial<br>
+n_nodes_fin&nbsp;------&gt;&nbsp;Número&nbsp;de&nbsp;nodos&nbsp;del&nbsp;paso&nbsp;final<br>
+step&nbsp;-------------&gt;&nbsp;Incremento&nbsp;de&nbsp;nodos&nbsp;entre&nbsp;los&nbsp;diferentes&nbsp;pasos<br>
 sparse_factor&nbsp;----&gt;&nbsp;Factor&nbsp;de&nbsp;ramificación&nbsp;de&nbsp;los&nbsp;grafos&nbsp;a&nbsp;generar<br>
+&nbsp;<br>
+Retorno:<br>
+Lista&nbsp;con&nbsp;los&nbsp;tiempos&nbsp;medios&nbsp;de&nbsp;resolución&nbsp;de&nbsp;Dijkstra&nbsp;para&nbsp;todos&nbsp;los&nbsp;nodos&nbsp;de&nbsp;todos<br>
+los&nbsp;grafos&nbsp;de&nbsp;cada&nbsp;paso.</tt></dd></dl>
+ <dl><dt><a name="-time_dijkstra_nx"><strong>time_dijkstra_nx</strong></a>(n_graphs, n_nodes_ini, n_nodes_fin, step, sparse_factor=0.25)</dt><dd><tt>Función&nbsp;que&nbsp;genera&nbsp;un&nbsp;número&nbsp;de&nbsp;grafos&nbsp;con&nbsp;un&nbsp;numero&nbsp;de&nbsp;nodos&nbsp;entre&nbsp;un&nbsp;minimo<br>
+y&nbsp;un&nbsp;máximo&nbsp;conocidos&nbsp;con&nbsp;incrementos&nbsp;de&nbsp;nodos&nbsp;entre&nbsp;ese&nbsp;rango.&nbsp;Despues,&nbsp;para<br>
+cada&nbsp;grafo&nbsp;generado,&nbsp;aplicamos&nbsp;el&nbsp;algoritmo&nbsp;de&nbsp;Dijkstra&nbsp;para&nbsp;cada&nbsp;nodo&nbsp;de&nbsp;cada<br>
+grafo,&nbsp;midiendo&nbsp;el&nbsp;tiempo&nbsp;en&nbsp;el&nbsp;se&nbsp;resuelve&nbsp;el&nbsp;mismo.<br>
+Los&nbsp;grafos&nbsp;están&nbsp;en&nbsp;modo&nbsp;NetworkX&nbsp;Graph&nbsp;Data&nbsp;Structure.<br>
+&nbsp;<br>
+Parámetros:<br>
+n_graphs&nbsp;-----------&gt;&nbsp;Número&nbsp;de&nbsp;grados&nbsp;por&nbsp;paso<br>
+n_nodes_ini&nbsp;--------&gt;&nbsp;Número&nbsp;de&nbsp;nodos&nbsp;del&nbsp;paso&nbsp;inicial<br>
+n_nodes_fin&nbsp;--------&gt;&nbsp;Número&nbsp;de&nbsp;nodos&nbsp;del&nbsp;paso&nbsp;final<br>
+step&nbsp;---------------&gt;&nbsp;Incremento&nbsp;de&nbsp;nodos&nbsp;entre&nbsp;los&nbsp;diferentes&nbsp;pasos<br>
+sparse_factor&nbsp;------&gt;&nbsp;Factor&nbsp;de&nbsp;ramificación&nbsp;de&nbsp;los&nbsp;grafos&nbsp;a&nbsp;generar<br>
 &nbsp;<br>
 Retorno:<br>
 Lista&nbsp;con&nbsp;los&nbsp;tiempos&nbsp;medios&nbsp;de&nbsp;resolución&nbsp;de&nbsp;Dijkstra&nbsp;para&nbsp;todos&nbsp;los&nbsp;nodos&nbsp;de&nbsp;todos<br>
